@@ -6,13 +6,10 @@ name: Node CI
 on: [push]
 
 jobs:
-      - uses: actions/upload-artifact@master
-        with:
-          name: webpack artifacts
-          path: public/
-
-    needs: build
-
+  build:
+        
+    runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v2
       - name: npm install and build webpack
@@ -24,13 +21,9 @@ jobs:
           name: webpack artifacts
           path: public/
   test:
-
-    - uses: actions/download-artifact@master
-      with:
-        name: webpack artifacts
-        path: public
-    - name: npm install, and test
-
+    needs: build
+    runs-on: ubuntu-latest
+          
     strategy:
       matrix:
         os: [ubuntu-latest, windows-2016]
